@@ -15,18 +15,21 @@ class PostsRouter {
 
 
     private _configure() {
-        this._router.get('/', (req: Request, res: Response, next: NextFunction) => {
-            res.status(200).json(this._controller.defaultMethod());
+        this._router.get('/',(req: Request, res: Response, next: NextFunction) => {
+            this._controller.getPosts(res, next);
         });
         
         this._router.post('/postAPost', (req: Request, res: Response, next: NextFunction) => {
-            res.status(200).json(this._controller.postAPost(req));
+            this._controller.postAPost(req, res, next);   
         });
+        
+        this._router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
+            this._controller.deleteAPost(req, res, next);
+        })
 
-        this.router.get('/new', (req: Request, res: Response, next: NextFunction) => {
+        this._router.get('/new', (req: Request, res: Response, next: NextFunction) => {
             try {
-                const result = this._controller.anotherMethod();
-                res.status(200).json(result);
+                this._controller.anotherMethod();
             } catch (error) {
                 next(error);
             }
