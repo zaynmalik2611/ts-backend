@@ -1,8 +1,24 @@
 import { NextFunction, Request, Response } from "express";
+
 import ErrorHandler from "../models/ErrorHandler";
 import Post from '../models/Post';
 
+
+
 class PostsController {
+    async uploadFile(req: Request, res: Response, next: NextFunction) {
+        console.log("req.file: ", req.file);
+        if(!req.file) {
+            console.log("No file received");
+            return next(new ErrorHandler(404, "Bad Request"));
+        } else {
+            console.log("file received");
+            return res.send({
+                success: true
+            })
+        }
+    }
+
     async getPosts(res: Response, next: NextFunction) {
         try {
             const result = await Post.find({});
